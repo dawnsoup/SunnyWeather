@@ -1,12 +1,16 @@
 package com.example.android.ui.place
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.R
+import com.example.android.SunnyWeatherApplication
+import com.example.android.ui.weather.WeatherActivity
 
 import com.sunnyweather.android.logic.model.Place
 import kotlinx.android.synthetic.main.place_item.view.*
@@ -20,6 +24,19 @@ class PlaceAdapter(private val fragment: Fragment, private val placeList: List<P
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.place_item, parent, false)
+        val holder = ViewHolder(view)
+        holder.itemView.setOnClickListener {
+            Toast.makeText(SunnyWeatherApplication.context, holder.adapterPosition.toString(), Toast.LENGTH_SHORT).show()
+            val position = holder.adapterPosition
+            val place = placeList[position]
+            val intent = Intent(parent.context, WeatherActivity::class.java).apply {
+                putExtra("location_lng", place.location.lng)
+                putExtra("location_lat", place.location.lat)
+                putExtra("place_name", place.name)
+            }
+            fragment.startActivity(intent)
+            fragment.activity?.finish()
+        }
         return ViewHolder(view)
     }
 
