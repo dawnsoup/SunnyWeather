@@ -26,7 +26,7 @@ class PlaceAdapter(private val fragment: Fragment, private val placeList: List<P
         val view = LayoutInflater.from(parent.context).inflate(R.layout.place_item, parent, false)
         val holder = ViewHolder(view)
         holder.itemView.setOnClickListener {
-            Toast.makeText(SunnyWeatherApplication.context, holder.adapterPosition.toString(), Toast.LENGTH_SHORT).show()
+//            Toast.makeText(SunnyWeatherApplication.context, holder.adapterPosition.toString(), Toast.LENGTH_SHORT).show()
             val position = holder.adapterPosition
             val place = placeList[position]
             val intent = Intent(parent.context, WeatherActivity::class.java).apply {
@@ -37,7 +37,8 @@ class PlaceAdapter(private val fragment: Fragment, private val placeList: List<P
             fragment.startActivity(intent)
             fragment.activity?.finish()
         }
-        return ViewHolder(view)
+
+        return holder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -46,7 +47,5 @@ class PlaceAdapter(private val fragment: Fragment, private val placeList: List<P
         holder.placeAddress.text = place.address
     }
 
-    override fun getItemCount(): Int {
-        return placeList.size
-    }
+    override fun getItemCount() = placeList.size
 }
